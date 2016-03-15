@@ -1,0 +1,49 @@
+.wrapper {
+    margin: 0 auto;
+    max-width: 1200px;
+    min-width: 360px;
+    width: 70%;
+}
+video {
+    height: auto;
+    margin: 0 auto;
+    margin-top: .5em;
+    padding: 2px;
+    width: 100%;
+}
+.btn {
+    text-align: center;
+}
+img {
+    height: auto;
+    margin-top: .5em;
+    width: 100%;
+}
+.text {
+    color: #d00000;
+    display: block;
+    font-size: 1em;
+    margin: 0 auto;
+    max-width: 1200px;
+    position: absolute;
+    left: 19%; top: 30%;
+    min-width: 300px;
+    width: 60%;
+}
+.txt-doc {
+    color: #525252;
+    text-align: center;
+}
+
+@media (min-width: 400px) and (max-width: 800px) {
+    .text {
+        font-size: .8em;
+        left: 19%; top: 15%;
+    }
+}
+@media (max-width: 399px) {
+    .text {
+        font-size: .8em;
+        left: 10%; top: 10%;
+    }
+}
