@@ -22,11 +22,11 @@ img {
 .text {
     color: #d00000;
     display: block;
-    font-size: 1em;
-    margin: 0 auto;
+    font-size: 3.7em;
+    margin: 0 ;
     max-width: 1200px;
     position: absolute;
-    left: 19%; top: 30%;
+    left: 36.5%; top: 30%;
     min-width: 300px;
     width: 60%;
 }

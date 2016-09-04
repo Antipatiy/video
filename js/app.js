@@ -1,70 +1,87 @@
-//GOVNO-CODE
+(function (global, $) {
+    var videoApp = {
+        flag: true,
 
-//AJAX
-var returnItems;
+        returnItems: '',
 
+        getDataByAJAX: function getDataByAJAX() {
+            $.getJSON('json/package.json', function (data) {
+                var items = [];
 
-$.getJSON('json/package.json', function(data){
-    var items = [];
+                $.each(data, function (key, val) {
+                    items.push(val);
+                });
 
-    $.each(data, function(key, val){
-        items.push(val);
-    });
+                return videoApp.returnItems = function () {
+                    return items;
+                };
+            });
+        },
 
-    return returnItems = function() {
-        return items;
+        video: document.getElementById("video"),
+
+        showImg: function showImg() {
+            return $('<img>', {
+                'src': videoApp.returnItems()[0]
+            });
+        },
+
+        getDelayTime: function getDelayTime() {
+            return videoApp.returnItems()[1];
+        },
+
+        getPauseTime: function getPauseTime() {
+            return videoApp.returnItems()[2];
+        },
+
+        showText: function showText() {
+            return $('<p>', {
+                'class': 'text',
+                html: videoApp.returnItems()[3]
+            });
+        },
+
+        playVideo: function playVideo() {
+            videoApp.video.play();
+        },
+
+        doDelay: function doDelay() {
+            videoApp.playVideo();
+            $('img').remove();
+            $('.text').remove();
+            $('#video').show();
+        },
+
+        pauseVideo: function pauseVideo() {
+            videoApp.video.pause();
+        },
+
+        doPause: function doPause() {
+            $('img').remove();
+            $('#video').hide();
+            $('.wrapper').append(videoApp.showImg());
+            $('.empty').append(videoApp.showText());
+            videoApp.pauseVideo();
+            setTimeout(videoApp.doDelay, videoApp.getPauseTime());
+        },
+
+        clickOnPlay: function clickOnPlay() {
+            $('#play').click(function () {
+                if (videoApp.flag) {
+                    videoApp.playVideo();
+                    $('img').remove();
+                    $('#video').show();
+                    videoApp.flag = false;
+                    setTimeout(videoApp.doPause, videoApp.getDelayTime());
+                }
+                else {
+                    videoApp.pauseVideo();
+                    videoApp.flag = true;
+                }
+            });
+        }
     };
-});
+    videoApp.getDataByAJAX();
+    videoApp.clickOnPlay();
 
-//Video events
-var myVideo = document.getElementById("video1");
-
-var play = function() {
-    myVideo.play();
-};
-
-var pause = function() {
-    myVideo.pause();
-};
-//Data functions
-var returnImg = function() {
-    return $('<img>', {
-        'src': returnItems()[0]
-    });
-};
-var returnDelayTime = function() {
-    return returnItems()[1];
-};
-
-var returnPauseTime = function() {
-    return returnItems()[2];
-};
-
-var returnText = function() {
-    return $('<p>', {
-        'class': 'text',
-        html: returnItems()[3]
-    });
-};
-
-var doDelay = function() {
-    play();
-    $('img').remove();
-    $('.text').remove();
-    $('#video1').show();
-};
-
-var doPause = function() {
-    $('img').remove();
-    $('#video1').hide();
-    $('.wrapper').append( returnImg() );
-    $('.empty').append( returnText() );
-    pause();
-    setTimeout(doDelay, returnPauseTime());
-};
-//Click on play button
-$('#play').click(function() {
-    $('img').remove();
-    $('#video1').show();
-    setTimeout(doPause, returnDelayTime());
-});
+})(window, jQuery);
