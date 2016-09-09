@@ -1,7 +1,5 @@
 (function (global, $) {
     var videoApp = {
-        flag: true,
-
         returnItems: '',
 
         getDataByAJAX: function getDataByAJAX() {
@@ -65,18 +63,31 @@
             setTimeout(videoApp.doDelay, videoApp.getPauseTime());
         },
 
+        flagForAutoPause: true,
+        flagForPause: false,
+
         clickOnPlay: function clickOnPlay() {
             $('#play').click(function () {
-                if (videoApp.flag) {
+                var timeout = setTimeout(videoApp.doPause, videoApp.getDelayTime());
+
+                if ( videoApp.flagForAutoPause && !videoApp.flagForPause ) {
                     videoApp.playVideo();
                     $('img').remove();
                     $('#video').show();
-                    videoApp.flag = false;
-                    setTimeout(videoApp.doPause, videoApp.getDelayTime());
+                    videoApp.flagForAutoPause = false;
+                    //var timeout = setTimeout(videoApp.doPause, videoApp.getDelayTime());
+                    timeout();
                 }
-                else {
+                else if ( !videoApp.flagForAutoPause && !videoApp.flagForPause ) {
                     videoApp.pauseVideo();
-                    videoApp.flag = true;
+                    //videoApp.flagForAutoPause = true;
+                    videoApp.flagForPause = true;
+                    //clearTimeout(timeout);
+                }
+                else if ( !videoApp.flagForAutoPause && videoApp.flagForPause ) {
+                    videoApp.playVideo();
+                    videoApp.flagForAutoPause = false;
+                    videoApp.flagForPause = false;
                 }
             });
         }
