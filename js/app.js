@@ -60,34 +60,46 @@
             $('.wrapper').append(videoApp.showImg());
             $('.empty').append(videoApp.showText());
             videoApp.pauseVideo();
-            setTimeout(videoApp.doDelay, videoApp.getPauseTime());
+            setTimeout(function () {
+                videoApp.doDelay();
+            }, videoApp.getPauseTime());
+
         },
 
         flagForAutoPause: true,
         flagForPause: false,
 
+        playFirstTimeOnClick: function playFirstTimeOnClick() {
+            videoApp.playVideo();
+            $('img').remove();
+            $('#video').show();
+            videoApp.flagForAutoPause = false;
+            setTimeout(function () {
+                videoApp.doPause();
+            }, videoApp.getDelayTime());
+        },
+
+        pauseOnClick: function pauseOnClick() {
+            videoApp.pauseVideo();
+            videoApp.flagForPause = true;
+        },
+
+        playSecondTimeOnClick: function playSecondTimeOnClick() {
+            videoApp.playVideo();
+            videoApp.flagForAutoPause = false;
+            videoApp.flagForPause = false;
+        },
+
         clickOnPlay: function clickOnPlay() {
             $('#play').click(function () {
-                var timeout = setTimeout(videoApp.doPause, videoApp.getDelayTime());
-
                 if ( videoApp.flagForAutoPause && !videoApp.flagForPause ) {
-                    videoApp.playVideo();
-                    $('img').remove();
-                    $('#video').show();
-                    videoApp.flagForAutoPause = false;
-                    //var timeout = setTimeout(videoApp.doPause, videoApp.getDelayTime());
-                    timeout();
+                    videoApp.playFirstTimeOnClick();
                 }
                 else if ( !videoApp.flagForAutoPause && !videoApp.flagForPause ) {
-                    videoApp.pauseVideo();
-                    //videoApp.flagForAutoPause = true;
-                    videoApp.flagForPause = true;
-                    //clearTimeout(timeout);
+                    videoApp.pauseOnClick();
                 }
                 else if ( !videoApp.flagForAutoPause && videoApp.flagForPause ) {
-                    videoApp.playVideo();
-                    videoApp.flagForAutoPause = false;
-                    videoApp.flagForPause = false;
+                    videoApp.playSecondTimeOnClick();
                 }
             });
         }
