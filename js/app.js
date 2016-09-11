@@ -106,5 +106,4 @@
     };
     videoApp.getDataByAJAX();
     videoApp.clickOnPlay();
-
 })(window, jQuery);
